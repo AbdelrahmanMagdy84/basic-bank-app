@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:basic_banking/helpers/db.helpers.dart';
 import 'package:basic_banking/models/customer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class Customers extends ChangeNotifier {
   // ignore: prefer_final_fields
@@ -10,6 +9,12 @@ class Customers extends ChangeNotifier {
   List<Customer> _customers = [];
   List<Customer> get getCustomers {
     return [..._customers];
+  }
+
+  Customer getCustomerByID(int id) {
+    return _customers.firstWhere((element) {
+      return element.id == id;
+    });
   }
 
   void insertCustomer(File? image) {
@@ -20,9 +25,9 @@ class Customers extends ChangeNotifier {
 
     final newCustomer = Customer(
         id: 000,
-        name: "Ahmed Samir",
+        name: "ahmed Samir",
         email: "ahmedSamir@gmail.com",
-        currentBalance: 10000,
+        currentBalance: 1000,
         image: image);
     _customers.add(newCustomer);
     notifyListeners();
@@ -37,7 +42,7 @@ class Customers extends ChangeNotifier {
 
   Future<void> fetchAndSetCustomers() async {
     final allData = await DBHelper.getData("customer");
-    print(allData);
+
     _customers = allData.map((customer) {
       return Customer(
           id: customer["id"],
@@ -48,5 +53,14 @@ class Customers extends ChangeNotifier {
     }).toList();
 
     notifyListeners();
+  }
+
+  Future<void> updateCustomersBalance(int senderId, double senderBalance,
+      int receiverId, double receiverBalance, amount) async {
+    double newSenderBalance = senderBalance - amount;
+    double newReceiverBalance = receiverBalance + amount;
+    await DBHelper.update(
+        senderId, newSenderBalance, receiverId, newReceiverBalance);
+    fetchAndSetCustomers();
   }
 }
