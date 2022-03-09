@@ -1,11 +1,24 @@
+import 'dart:io';
+
 class Transaction {
-  int senderId;
-  int receiverId;
+  int trId;
+  String senderName;
+  File senderImage;
+  double senderBalance;
+  String receiverName;
+  File receiverImage;
+  double receiverBalance;
+
   double amount;
-  DateTime? date;
+  DateTime date;
   Transaction(
-      {required this.senderId,
-      required this.receiverId,
+      {required this.trId,
+      required this.senderName,
+      required this.senderImage,
+      required this.senderBalance,
+      required this.receiverName,
+      required this.receiverImage,
+      required this.receiverBalance,
       required this.amount,
-      required date});
+      required this.date});
 }
