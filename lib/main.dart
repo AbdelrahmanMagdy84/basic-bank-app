@@ -1,4 +1,5 @@
 import 'package:basic_banking/providers/customers_provider.dart';
+import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/providers/transactions_provider.dart';
 import 'package:basic_banking/screens/customers_list_screen.dart';
 import 'package:basic_banking/screens/main_screen.dart';
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: TransactionsProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: NewTransactionDataProvider(),
         )
       ],
     );

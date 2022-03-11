@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:basic_banking/models/customer.dart';
 import 'package:basic_banking/providers/customers_provider.dart';
+import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/providers/transactions_provider.dart';
 import 'package:basic_banking/widgets/customer_card.dart';
 import 'package:image_picker/image_picker.dart';
@@ -50,17 +51,17 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, Object>? data =
-        ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
-    int senderId = -1;
-    double amountToTransfer = -1;
-    if (data != null) {
-      senderId = data["senderId"] as int;
-      amountToTransfer = data["amount"] as double;
-    }
-
+    // final Map<String, Object>? data =
+    //     ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
+    // int senderId = -1;
+    // double amountToTransfer = -1;
+    // if (data != null) {
+    //   senderId = data["senderId"] as int;
+    //   amountToTransfer = data["amount"] as double;
+    // }
+    final newTransactionData = NewTransactionDataProvider.getObject(context);
     return Scaffold(
-      appBar: data != null
+      appBar: newTransactionData.inProcess()
           ? AppBar(
               toolbarHeight: 100,
               title: Text(
@@ -79,20 +80,17 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
           return Consumer<Customers>(
             builder: (context, customers, _) {
               final customersData = customers.getCustomers;
-              if (data != null) {
+              if (newTransactionData.inProcess()) {
                 customersData.removeWhere((element) {
-                  return element.id == senderId;
+                  return element.id == newTransactionData.getSenderID;
                 });
               }
               return ListView.builder(
                 itemCount: customersData.length,
                 itemBuilder: (context, index) {
                   return CustomerCard(
-                      customersData[index],
-                      senderId,
-                      insertNewTransaction,
-                      data == null ? false : true,
-                      amountToTransfer);
+                    customersData[index],
+                  );
                 },
               );
             },
