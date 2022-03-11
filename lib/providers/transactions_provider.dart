@@ -1,7 +1,4 @@
 import 'dart:io';
-
-import 'package:basic_banking/models/customer.dart';
-
 import '../helpers/db.helpers.dart';
 import '../models/transaction.dart';
 import 'package:flutter/material.dart';

@@ -1,16 +1,11 @@
 import 'package:basic_banking/models/customer.dart';
+import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/screens/customer_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomerCard extends StatelessWidget {
-  final double amount;
-  final int senderId;
-  final Function(int senderId, double amount, int receiverId)
-      insertNewTransaction;
   final Customer customer;
-  final bool chooseReceiver;
-  CustomerCard(this.customer, this.senderId, this.insertNewTransaction,
-      this.chooseReceiver, this.amount);
+  CustomerCard(this.customer);
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +55,10 @@ class CustomerCard extends StatelessWidget {
             ),
           ),
           onTap: () {
-            if (chooseReceiver) {
-              insertNewTransaction(senderId, amount, customer.id);
+            final newTranaction = NewTransactionDataProvider.getObject(context);
+            if (newTranaction.inProcess()) {
+              newTranaction.setReceiverID(customer.id);
+              newTranaction.insertNewTransaction(context);
             } else {
               targetDetailsScreen(customer.id);
             }

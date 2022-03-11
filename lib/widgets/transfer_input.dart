@@ -1,5 +1,7 @@
+import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/screens/customers_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransferInputWidget extends StatefulWidget {
   final double balance;
@@ -47,8 +49,6 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
       return false;
     }
     if (int.parse(amountController.text) > widget.balance) {
-      print(int.parse(amountController.text));
-      print(widget.balance);
       setState(() {
         error = "can't be greater than balance";
       });
@@ -133,13 +133,17 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
                             onPressed: () {
                               FocusScope.of(context).unfocus();
                               if (_validate()) {
+                                final newTransactionData =
+                                    NewTransactionDataProvider.getObject(
+                                        context);
+                                newTransactionData
+                                    .setSenderID(widget.sender_id);
+                                newTransactionData.setAmount(
+                                    double.parse(amountController.text));
                                 Navigator.pushNamed(
-                                    context, CustomersListScreen.routeName,
-                                    arguments: {
-                                      "senderId": widget.sender_id,
-                                      "amount":
-                                          double.parse(amountController.text)
-                                    });
+                                  context,
+                                  CustomersListScreen.routeName,
+                                );
                               }
                             },
                           ),
