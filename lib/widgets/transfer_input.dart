@@ -54,6 +54,12 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
       });
       return false;
     }
+    if (int.parse(amountController.text) <= 0) {
+      setState(() {
+        error = "Please enter a valid amount";
+      });
+      return false;
+    }
     error = null;
     return true;
   }
@@ -134,8 +140,9 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
                               FocusScope.of(context).unfocus();
                               if (_validate()) {
                                 final newTransactionData =
-                                    NewTransactionDataProvider.getObject(
-                                        context);
+                                    Provider.of<NewTransactionDataProvider>(
+                                        context,
+                                        listen: false);
                                 newTransactionData
                                     .setSenderID(widget.sender_id);
                                 newTransactionData.setAmount(
@@ -143,7 +150,9 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
                                 Navigator.pushNamed(
                                   context,
                                   CustomersListScreen.routeName,
-                                );
+                                ).then((value) {
+                                  newTransactionData.clean();
+                                });
                               }
                             },
                           ),

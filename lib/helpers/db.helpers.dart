@@ -46,15 +46,3 @@ class DBHelper {
         where: "id = ?", whereArgs: [receiverId]);
   }
 }
-
-// CREATE TABLE customer(id INTEGER PRIMARY KEY, name TEXT,email TEXT, balance DOUBLe,image TEXT);
-// CREATE TABLE transactions(Tr_id INTEGER PRIMARY KEY,senderId INTEGER,receiverId INTEGER,amount DOUBLe,tr_date TEXT,FOREIGN KEY (senderId) REFERENCES customer (id),FOREIGN KEY (receiverId) REFERENCES customer (id));
-
-// /* Create few records in this table */
-// insert into customer values(1,"ins","abdo@gmail.com",120,"image.png");
-// insert into customer values(2,"abdo","ins@gmail.com",250,"image.png");
-
-// insert into transactions values(300,2,1,50,"2020");
-// insert into transactions values(200,1,2,60,"2020");
-
-//select transactions1.Tr_id as tr_id,transactions1.name as senderName,transactions1.image AS senderImage ,transactions2.name as receiverName,transactions2.image AS receiverImage,transactions2.balance,amount,transactions1.tr_date from(select Tr_id,name,image,balance,amount,tr_date   from transactions inner Join customer where senderId = id )as transactions1 inner join (select  Tr_id,name,image,balance  from transactions inner Join customer where receiverId = id) as transactions2 where transactions1.Tr_id=transactions2.Tr_id;

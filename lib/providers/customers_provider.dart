@@ -11,6 +11,14 @@ class Customers extends ChangeNotifier {
     return [..._customers];
   }
 
+  List<Customer> getCustomersExcept(int id) {
+    final copyList = [..._customers];
+    copyList.removeWhere((element) {
+      return element.id == id;
+    });
+    return copyList;
+  }
+
   Customer getCustomerByID(int id) {
     return _customers.firstWhere((element) {
       return element.id == id;

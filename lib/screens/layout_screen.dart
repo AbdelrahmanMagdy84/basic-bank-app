@@ -10,7 +10,9 @@ class MainScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Basic Bank"),
+          title: Text(
+            "Basic Bank",
+          ),
           bottom: const TabBar(
             tabs: [
               Tab(
