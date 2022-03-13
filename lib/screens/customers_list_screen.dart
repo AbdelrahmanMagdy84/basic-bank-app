@@ -18,19 +18,12 @@ class CustomersListScreen extends StatefulWidget {
 
 class _CustomersListScreenState extends State<CustomersListScreen> {
   File? _storedImage;
-
-  void insertNewTransaction(int senderId, double amount, int receiverId) {
-    Navigator.pop(context);
-    Navigator.pushReplacementNamed(context, "/");
-    final cutomersProvider = Provider.of<Customers>(context, listen: false);
-
-    final transactionProvider =
-        Provider.of<TransactionsProvider>(context, listen: false);
-    transactionProvider.insertTransaction(senderId, receiverId, amount);
-    final sender = cutomersProvider.getCustomerByID(senderId);
-    final receiver = cutomersProvider.getCustomerByID(receiverId);
-    cutomersProvider.updateCustomersBalance(sender.id, sender.currentBalance,
-        receiver.id, receiver.currentBalance, amount);
+  late Future fetch;
+  @override
+  void initState() {
+    fetch =
+        Provider.of<Customers>(context, listen: false).fetchAndSetCustomers();
+    super.initState();
   }
 
   Future<void> takePicture() async {
@@ -51,39 +44,28 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final Map<String, Object>? data =
-    //     ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
-    // int senderId = -1;
-    // double amountToTransfer = -1;
-    // if (data != null) {
-    //   senderId = data["senderId"] as int;
-    //   amountToTransfer = data["amount"] as double;
-    // }
-    final newTransactionData = NewTransactionDataProvider.getObject(context);
-    return Scaffold(
-      appBar: newTransactionData.inProcess()
-          ? AppBar(
-              toolbarHeight: 100,
-              title: Text(
-                "select the receiving acount",
-                maxLines: 2,
-              ),
-            )
-          : null,
-      body: FutureBuilder(
-        future: Provider.of<Customers>(context, listen: false)
-            .fetchAndSetCustomers(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Consumer<Customers>(
-            builder: (context, customers, _) {
-              final customersData = customers.getCustomers;
+    return Consumer2<NewTransactionDataProvider, Customers>(
+      builder: (context, newTransactionData, customers, child) {
+        return Scaffold(
+          appBar: newTransactionData.inProcess()
+              ? AppBar(
+                  toolbarHeight: 100,
+                  title: Text(
+                    "select the receiving acount",
+                    maxLines: 2,
+                  ),
+                )
+              : null,
+          body: FutureBuilder(
+            future: fetch,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              var customersData = customers.getCustomers;
               if (newTransactionData.inProcess()) {
-                customersData.removeWhere((element) {
-                  return element.id == newTransactionData.getSenderID;
-                });
+                customersData = customers
+                    .getCustomersExcept(newTransactionData.getSenderID);
               }
               return ListView.builder(
                 itemCount: customersData.length,
@@ -94,12 +76,12 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
                 },
               );
             },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: takePicture,
-      ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: takePicture,
+          ),
+        );
+      },
     );
   }
 }

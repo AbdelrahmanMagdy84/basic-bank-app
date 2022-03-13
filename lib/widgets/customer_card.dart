@@ -2,6 +2,7 @@ import 'package:basic_banking/models/customer.dart';
 import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/screens/customer_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomerCard extends StatelessWidget {
   final Customer customer;
@@ -9,15 +10,6 @@ class CustomerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void targetDetailsScreen(id) {
-      Navigator.push(
-          context,
-          PageRouteBuilder(
-            transitionDuration: Duration(seconds: 1),
-            pageBuilder: (_, __, ___) => CustomerDetailsScreen(id),
-          ));
-    }
-
     return Card(
       child: Container(
         child: ListTile(
@@ -55,12 +47,22 @@ class CustomerCard extends StatelessWidget {
             ),
           ),
           onTap: () {
-            final newTranaction = NewTransactionDataProvider.getObject(context);
+            final newTranaction =
+                Provider.of<NewTransactionDataProvider>(context, listen: false);
             if (newTranaction.inProcess()) {
               newTranaction.setReceiverID(customer.id);
               newTranaction.insertNewTransaction(context);
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("money sent has been successfully received")));
             } else {
-              targetDetailsScreen(customer.id);
+              Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    transitionDuration: Duration(seconds: 1),
+                    pageBuilder: (_, __, ___) =>
+                        CustomerDetailsScreen(customer.id),
+                  ));
             }
           },
         ),

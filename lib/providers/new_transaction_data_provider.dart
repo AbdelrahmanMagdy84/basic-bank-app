@@ -25,9 +25,6 @@ class NewTransactionDataProvider extends ChangeNotifier {
 
   int get getSenderID => _senderId!;
 
-  static NewTransactionDataProvider getObject(BuildContext context) =>
-      Provider.of<NewTransactionDataProvider>(context, listen: false);
-
   void insertNewTransaction(BuildContext context) {
     Navigator.pop(context);
     Navigator.pushReplacementNamed(context, "/");
@@ -40,14 +37,13 @@ class NewTransactionDataProvider extends ChangeNotifier {
     final receiver = cutomersProvider.getCustomerByID(_receiverId!);
     cutomersProvider.updateCustomersBalance(sender.id, sender.currentBalance,
         receiver.id, receiver.currentBalance, _amount!);
-    dispose();
+    clean();
   }
 
-  @override
-  void dispose() {
+  void clean() {
     _senderId = null;
     _amount = null;
     _receiverId = null;
-    super.dispose();
+    notifyListeners();
   }
 }

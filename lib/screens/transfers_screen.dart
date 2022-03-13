@@ -11,7 +11,7 @@ class TransfersScreen extends StatelessWidget {
           .fetchAndSetData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
+          return Center(child: CircularProgressIndicator());
         }
         return Consumer<TransactionsProvider>(
           builder: (context, transactions, child) {

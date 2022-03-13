@@ -2,7 +2,7 @@ import 'package:basic_banking/providers/customers_provider.dart';
 import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/providers/transactions_provider.dart';
 import 'package:basic_banking/screens/customers_list_screen.dart';
-import 'package:basic_banking/screens/main_screen.dart';
+import 'package:basic_banking/screens/layout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,13 +11,21 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final theme = ThemeData();
+  Color myHexColor = Color(0xff123456);
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        theme: theme.copyWith(
+          colorScheme: theme.colorScheme.copyWith(
+              primary: Colors.blueGrey,
+              secondary: Colors.pink[100],
+              onPrimary: Colors.pink[900]),
+          tabBarTheme: TabBarTheme().copyWith(
+            labelColor: Colors.pink[900],
+          ),
         ),
         routes: {
           "/": (ctx) => MainScreen(),
@@ -32,8 +40,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: TransactionsProvider(),
         ),
-        ChangeNotifierProvider.value(
-          value: NewTransactionDataProvider(),
+        ChangeNotifierProvider(
+          create: (_) => NewTransactionDataProvider(),
         )
       ],
     );
