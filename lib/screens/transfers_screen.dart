@@ -19,6 +19,7 @@ class TransfersScreen extends StatelessWidget {
             return transactions.getTransactions.isEmpty
                 ? Text("no transactions yet")
                 : ListView.builder(
+                 
                     itemCount: transactionsData.length,
                     itemBuilder: (transaction, index) {
                       return TransferCard(
