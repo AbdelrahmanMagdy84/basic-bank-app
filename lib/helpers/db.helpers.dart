@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
   static const joinQuery =
-      "select transactions1.Tr_id as tr_id,transactions1.name as senderName,transactions1.image AS senderImage,transactions1.balance senderBalance ,transactions2.name as receiverName,transactions2.image AS receiverImage,transactions2.balance as receiverBalance,amount,transactions1.tr_date as tr_date from(select Tr_id,name,image,balance,amount,tr_date   from transactions inner Join customer where senderId = id )as transactions1 inner join (select  Tr_id,name,image,balance  from transactions inner Join customer where receiverId = id) as transactions2 where transactions1.Tr_id=transactions2.Tr_id;";
+      "select transactions1.Tr_id as tr_id,transactions1.name as senderName,transactions1.image AS senderImage,transactions1.balance senderBalance ,transactions2.name as receiverName,transactions2.image AS receiverImage,transactions2.balance as receiverBalance,amount,transactions1.tr_date as tr_date from(select Tr_id,name,image,balance,amount,tr_date   from transactions inner Join customer where senderId = id )as transactions1 inner join (select  Tr_id,name,image,balance  from transactions inner Join customer where receiverId = id) as transactions2 where transactions1.Tr_id=transactions2.Tr_id order by transactions1.tr_date desc;";
   static Future<Database> database() async {
     const customerTableQuery =
         "CREATE TABLE customer(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,email TEXT, balance DOUBLe,image TEXT);";
@@ -32,7 +32,6 @@ class DBHelper {
     final db = await DBHelper.database();
     if (table == "transactions") {
       return db.rawQuery(DBHelper.joinQuery);
-      //return db.query(DBHelper.joinQuery);
     }
     return db.query(table);
   }

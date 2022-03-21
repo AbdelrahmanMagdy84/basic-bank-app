@@ -12,4 +12,7 @@ class Customer {
       required this.email,
       required this.currentBalance,
       required this.image});
+  double increaseCopyOfBalance(double incAmount) {
+    return currentBalance + incAmount;
+  }
 }

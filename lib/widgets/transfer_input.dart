@@ -41,20 +41,20 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
     _animationController.dispose();
   }
 
-  bool _validate() {
-    if (amountController.text.isEmpty) {
+  bool validate(TextEditingController amountControlleragru) {
+    if (amountControlleragru.text.isEmpty) {
       setState(() {
         error = "can't be empty";
       });
       return false;
     }
-    if (int.parse(amountController.text) > widget.balance) {
+    if (int.parse(amountControlleragru.text) > widget.balance) {
       setState(() {
         error = "can't be greater than balance";
       });
       return false;
     }
-    if (int.parse(amountController.text) <= 0) {
+    if (int.parse(amountControlleragru.text) <= 0) {
       setState(() {
         error = "Please enter a valid amount";
       });
@@ -138,7 +138,7 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
                             ),
                             onPressed: () {
                               FocusScope.of(context).unfocus();
-                              if (_validate()) {
+                              if (validate(amountController)) {
                                 final newTransactionData =
                                     Provider.of<NewTransactionDataProvider>(
                                         context,
