@@ -36,17 +36,23 @@ class TransferCard extends StatelessWidget {
     }
     return Column(
       children: [
-        Text(
-          name,
-          style: TextStyle(fontWeight: FontWeight.bold),
+        Container(
+          margin: EdgeInsets.only(bottom: 10),
+          child: Text(
+            name,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
         CircleAvatar(
-          radius: 25,
+          radius: 30,
           backgroundImage: FileImage(image),
         ),
-        Text(
-          "\$$balance $textSymbol",
-          style: TextStyle(color: textColor),
+        Container(
+           margin: EdgeInsets.only(top: 5,),
+          child: Text(
+            "\$$balance $textSymbol",
+            style: TextStyle(color: textColor),
+          ),
         )
       ],
     );
@@ -69,7 +75,7 @@ class TransferCard extends StatelessWidget {
                   Icon(
                     Icons.arrow_forward,
                     size: 40,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   Container(
                     alignment: Alignment.center,

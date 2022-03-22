@@ -17,7 +17,7 @@ class TransfersScreen extends StatelessWidget {
           builder: (context, transactions, child) {
             final transactionsData = transactions.getTransactions;
             return transactions.getTransactions.isEmpty
-                ? Text("no transactions yet")
+                ? Center(child: Text("No transactions yet",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 22),))
                 : ListView.builder(
                  
                     itemCount: transactionsData.length,

@@ -21,11 +21,16 @@ class DBHelper {
   }
 
   static Future<void> insert(
+
       String table, Map<String, Object> insertedData) async {
     try {
       final db = await DBHelper.database();
-      db.insert(table, insertedData);
-    } catch (e) {}
+    //  db.insert(table, insertedData);
+      db.delete("customer",where:"id = ?",whereArgs: [6]);
+    } catch (e) {
+      print(e.toString())
+      ;
+    }
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

@@ -11,7 +11,12 @@ class MainScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: Text(
-            "Basic Bank",
+            "Bank",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+              color: Theme.of(context).colorScheme.onPrimary
+            ),
           ),
           bottom: const TabBar(
             tabs: [
@@ -20,7 +25,7 @@ class MainScreen extends StatelessWidget {
                 text: "Acounts",
               ),
               Tab(
-                icon: Icon(Icons.transfer_within_a_station),
+                icon: Icon(Icons.transfer_within_a_station_sharp),
                 text: "Transfers",
               ),
             ],

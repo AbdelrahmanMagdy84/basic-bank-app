@@ -26,21 +26,21 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     super.initState();
   }
 
-  Future<void> takePicture() async {
-    final imageFile = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, maxWidth: 600);
-    if (imageFile == null) {
-      return;
-    }
-    setState(() {
-      _storedImage = File(imageFile.path);
-    });
-    final appDir = await syspaths.getApplicationDocumentsDirectory();
-    final fileName = path.basename(imageFile.path);
-    final savedImage = await _storedImage!.copy("${appDir.path}/$fileName");
+  // Future<void> takePicture() async {
+  //   final imageFile = await ImagePicker()
+  //       .pickImage(source: ImageSource.gallery, maxWidth: 600);
+  //   if (imageFile == null) {
+  //     return;
+  //   }
+  //   setState(() {
+  //     _storedImage = File(imageFile.path);
+  //   });
+  //   final appDir = await syspaths.getApplicationDocumentsDirectory();
+  //   final fileName = path.basename(imageFile.path);
+  //   final savedImage = await _storedImage!.copy("${appDir.path}/$fileName");
 
-    Provider.of<Customers>(context, listen: false).insertCustomer(savedImage);
-  }
+  //   Provider.of<Customers>(context, listen: false).insertCustomer(savedImage);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +77,9 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
               );
             },
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: takePicture,
-          ),
+          // floatingActionButton: FloatingActionButton(
+          //   onPressed: takePicture,
+          // ),
         );
       },
     );

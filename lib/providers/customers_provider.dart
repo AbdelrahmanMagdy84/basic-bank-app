@@ -25,28 +25,28 @@ class Customers extends ChangeNotifier {
     });
   }
 
-  void insertCustomer(File? image) {
-    if (image == null) {
-      print("null image");
-      return;
-    }
+  // void insertCustomer(File? image) {
+  //   if (image == null) {
+  //     print("null image");
+  //     return;
+  //   }
 
-    final newCustomer = Customer(
-        id: 000,
-        name: "ahmed Samir",
-        email: "ahmedSamir@gmail.com",
-        currentBalance: 1000,
-        image: image);
-    _customers.add(newCustomer);
-    notifyListeners();
+  //   final newCustomer = Customer(
+  //       id: 000,
+  //       name: "Magdy Hassan",
+  //       email: "MohamedAhmed@gmail.com",
+  //       currentBalance: 7840.5,
+  //       image: image);
+  //   _customers.add(newCustomer);
+  //   notifyListeners();
 
-    DBHelper.insert("customer", {
-      "name": newCustomer.name,
-      "email": newCustomer.email,
-      "balance": newCustomer.currentBalance,
-      "image": newCustomer.image!.path,
-    });
-  }
+  //   DBHelper.insert("customer", {
+  //     "name": newCustomer.name,
+  //     "email": newCustomer.email,
+  //     "balance": newCustomer.currentBalance,
+  //     "image": newCustomer.image!.path,
+  //   });
+  // }
 
   Future<void> fetchAndSetCustomers() async {
     final allData = await DBHelper.getData("customer");
