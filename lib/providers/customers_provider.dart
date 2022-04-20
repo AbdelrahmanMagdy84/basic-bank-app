@@ -50,6 +50,7 @@ class Customers extends ChangeNotifier {
 
   Future<void> fetchAndSetCustomers() async {
     final allData = await DBHelper.getData("customer");
+    
 
     _customers = allData.map((customer) {
       return Customer(

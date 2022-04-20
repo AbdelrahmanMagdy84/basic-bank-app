@@ -3,6 +3,7 @@ import 'package:basic_banking/screens/customers_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 class TransferInputWidget extends StatefulWidget {
   final double balance;
   final int sender_id;

@@ -2,12 +2,9 @@ import 'dart:io';
 import 'package:basic_banking/models/customer.dart';
 import 'package:basic_banking/providers/customers_provider.dart';
 import 'package:basic_banking/providers/new_transaction_data_provider.dart';
-import 'package:basic_banking/providers/transactions_provider.dart';
 import 'package:basic_banking/widgets/customer_card.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:basic_banking/widgets/gradient_color_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' as path;
-import "package:path_provider/path_provider.dart" as syspaths;
 import 'package:provider/provider.dart';
 
 class CustomersListScreen extends StatefulWidget {
@@ -17,14 +14,7 @@ class CustomersListScreen extends StatefulWidget {
 }
 
 class _CustomersListScreenState extends State<CustomersListScreen> {
-  File? _storedImage;
-  late Future fetch;
-  @override
-  void initState() {
-    fetch =
-        Provider.of<Customers>(context, listen: false).fetchAndSetCustomers();
-    super.initState();
-  }
+  // File? _storedImage;
 
   // Future<void> takePicture() async {
   //   final imageFile = await ImagePicker()
@@ -41,45 +31,68 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   //   Provider.of<Customers>(context, listen: false).insertCustomer(savedImage);
   // }
-
+  Future<void> empty() async {}
   @override
   Widget build(BuildContext context) {
+    List<Customer> customersData = [];
     return Consumer2<NewTransactionDataProvider, Customers>(
-      builder: (context, newTransactionData, customers, child) {
-        return Scaffold(
-          appBar: newTransactionData.inProcess()
-              ? AppBar(
-                  toolbarHeight: 100,
-                  title: Text(
-                    "select the receiving acount",
-                    maxLines: 2,
+      builder: (ctx, newTransactionData, customers, child) {
+        if (newTransactionData.inProcess()) {
+          customersData =
+              customers.getCustomersExcept(newTransactionData.getSenderID);
+        } else {
+          customersData = customers.getCustomers;
+        }
+        return FutureBuilder(
+          future: newTransactionData.inProcess()
+              ? Future<bool>.value(true)
+              : customersData.isEmpty
+                  ? Provider.of<Customers>(context, listen: false)
+                      .fetchAndSetCustomers()
+                  : Future<bool>.value(true),
+          builder: (context, snap) {
+            if (snap.connectionState == ConnectionState.waiting) {
+              return GradientWidget(
+                const Scaffold(
+                  body: Center(
+                    child: Text(
+                      "Loading",
+                      style: TextStyle(fontSize: 30),
+                    ),
                   ),
-                )
-              : null,
-          body: FutureBuilder(
-            future: fetch,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              var customersData = customers.getCustomers;
-              if (newTransactionData.inProcess()) {
-                customersData = customers
-                    .getCustomersExcept(newTransactionData.getSenderID);
-              }
-              return ListView.builder(
-                itemCount: customersData.length,
-                itemBuilder: (context, index) {
-                  return CustomerCard(
-                    customersData[index],
-                  );
-                },
+                ),
               );
-            },
-          ),
-          // floatingActionButton: FloatingActionButton(
-          //   onPressed: takePicture,
-          // ),
+            }
+            return Scaffold(
+                appBar: newTransactionData.inProcess()
+                    ? AppBar(
+                        flexibleSpace: Container(
+                          decoration: BoxDecoration(
+                              gradient: GradientWidget.linearGradientBuilder(
+                                  context)),
+                        ),
+                        toolbarHeight: 100,
+                        title: const Text(
+                          "select the receiving acount",
+                          maxLines: 2,
+                        ),
+                      )
+                    : null,
+                body: customersData.isEmpty
+                    ? const Center(child: CircularProgressIndicator())
+                    : ListView.builder(
+                        itemCount: customersData.length,
+                        itemBuilder: (context, index) {
+                          return CustomerCard(
+                            customersData[index],
+                          );
+                        },
+                      )
+                // floatingActionButton: FloatingActionButton(
+                //   onPressed: takePicture,
+                // ),
+                );
+          },
         );
       },
     );

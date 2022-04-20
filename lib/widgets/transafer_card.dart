@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'gradient_color_widget.dart';
+
 enum AcountType { Sender, receiver }
 
 class TransferCard extends StatelessWidget {
@@ -37,10 +39,10 @@ class TransferCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 10),
+          margin: const EdgeInsets.only(bottom: 10),
           child: Text(
             name,
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
         CircleAvatar(
@@ -48,7 +50,9 @@ class TransferCard extends StatelessWidget {
           backgroundImage: FileImage(image),
         ),
         Container(
-           margin: EdgeInsets.only(top: 5,),
+          margin: const EdgeInsets.only(
+            top: 5,
+          ),
           child: Text(
             "\$$balance $textSymbol",
             style: TextStyle(color: textColor),
@@ -63,8 +67,11 @@ class TransferCard extends StatelessWidget {
     return Card(
         elevation: 2,
         child: Container(
-   
-          padding: EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            gradient:
+                GradientWidget.linearGradientBuilder(context, opacity: 0.3),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: [
               Expanded(
@@ -82,16 +89,18 @@ class TransferCard extends StatelessWidget {
                     child: Text(
                       "\$$amount",
                       style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 16),
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(top: 8),
+                    padding: const EdgeInsets.only(top: 8),
                     alignment: Alignment.center,
                     child: Text(
                       "${DateFormat.yMd().format(date)}",
-                      style: TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 12),
                     ),
                   )
                 ],

@@ -25,8 +25,7 @@ class DBHelper {
       String table, Map<String, Object> insertedData) async {
     try {
       final db = await DBHelper.database();
-    //  db.insert(table, insertedData);
-      db.delete("customer",where:"id = ?",whereArgs: [6]);
+      db.insert(table, insertedData);
     } catch (e) {
       print(e.toString())
       ;

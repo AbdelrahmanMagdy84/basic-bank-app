@@ -11,15 +11,21 @@ class TransfersScreen extends StatelessWidget {
           .fetchAndSetData(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         return Consumer<TransactionsProvider>(
           builder: (context, transactions, child) {
             final transactionsData = transactions.getTransactions;
+           
             return transactions.getTransactions.isEmpty
-                ? Center(child: Text("No transactions yet",style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 22),))
+                ? Center(
+                    child: Text(
+                    "No transactions yet",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 22),
+                  ))
                 : ListView.builder(
-                 
                     itemCount: transactionsData.length,
                     itemBuilder: (transaction, index) {
                       return TransferCard(

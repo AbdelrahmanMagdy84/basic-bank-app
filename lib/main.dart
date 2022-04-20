@@ -3,6 +3,7 @@ import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/providers/transactions_provider.dart';
 import 'package:basic_banking/screens/customers_list_screen.dart';
 import 'package:basic_banking/screens/layout_screen.dart';
+import 'package:basic_banking/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,13 +24,14 @@ class MyApp extends StatelessWidget {
               primary: Colors.blueGrey,
               secondary: Colors.pink[100],
               onPrimary: Colors.pink[900]),
-          tabBarTheme: TabBarTheme().copyWith(
+          tabBarTheme: const TabBarTheme().copyWith(
             labelColor: Colors.pink[900],
           ),
         ),
         routes: {
-          "/": (ctx) => MainScreen(),
+          "/": (ctx) => SplashScreen("Basic Bank", Icons.account_balance_sharp),
           CustomersListScreen.routeName: (ctx) => CustomersListScreen(),
+          LayoutScreen.routeName: (ctx) => LayoutScreen(),
           // CustomerDetailsScreen.routeName: (ctx) => CustomerDetailsScreen()
         },
       ),
