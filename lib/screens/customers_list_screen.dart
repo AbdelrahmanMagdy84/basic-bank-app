@@ -57,7 +57,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
                   body: Center(
                     child: Text(
                       "Loading",
-                      style: TextStyle(fontSize: 30),
+                      style: TextStyle(fontSize: 18),
                     ),
                   ),
                 ),
@@ -66,15 +66,14 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             return Scaffold(
                 appBar: newTransactionData.inProcess()
                     ? AppBar(
-                        flexibleSpace: Container(
-                          decoration: BoxDecoration(
-                              gradient: GradientWidget.linearGradientBuilder(
-                                  context)),
-                        ),
-                        toolbarHeight: 100,
-                        title: const Text(
-                          "select the receiving acount",
-                          maxLines: 2,
+                        //  toolbarHeight: 100,
+                        title: GradientWidget(
+                          Text(
+                            "Select the receiving acount",
+                            maxLines: 2,
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary),
+                          ),
                         ),
                       )
                     : null,

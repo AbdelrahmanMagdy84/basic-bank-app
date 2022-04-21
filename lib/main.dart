@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: theme.copyWith(
           colorScheme: theme.colorScheme.copyWith(
               primary: Colors.blueGrey,
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
           "/": (ctx) => SplashScreen("Basic Bank", Icons.account_balance_sharp),
           CustomersListScreen.routeName: (ctx) => CustomersListScreen(),
           LayoutScreen.routeName: (ctx) => LayoutScreen(),
-          // CustomerDetailsScreen.routeName: (ctx) => CustomerDetailsScreen()
+          
         },
       ),
       providers: [

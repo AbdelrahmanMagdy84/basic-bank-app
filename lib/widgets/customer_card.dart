@@ -70,9 +70,20 @@ class CustomerCard extends StatelessWidget {
         ),
         trailing: SizedBox(
           width: 95,
-          child: Text(
-            "\$${customer.currentBalance.toString()}",
-            style: const TextStyle(fontSize: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Balance:",
+                style:
+                     TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "\$${customer.currentBalance.toString()}",
+                style: const TextStyle(fontSize: 15),
+              ),
+            ],
           ),
         ),
         onTap: () => onPressed(context),
@@ -80,17 +91,3 @@ class CustomerCard extends StatelessWidget {
     ));
   }
 }
-// Column(
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: [
-//               const Text(
-//                 "Balance:",
-//                 style: const TextStyle(fontSize: 15),
-//               ),
-//               const SizedBox(height: 10),
-//               Text(
-//                 "\$${customer.currentBalance.toString()}",
-//                 style: const TextStyle(fontSize: 15),
-//               ),
-//             ],
-//           )

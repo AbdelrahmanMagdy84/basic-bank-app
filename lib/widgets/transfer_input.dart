@@ -1,8 +1,8 @@
 import 'package:basic_banking/providers/new_transaction_data_provider.dart';
 import 'package:basic_banking/screens/customers_list_screen.dart';
+import 'package:basic_banking/widgets/gradient_color_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 
 class TransferInputWidget extends StatefulWidget {
   final double balance;
@@ -73,25 +73,30 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
           const SizedBox(
             height: 10,
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
+          
+            TextButton(
+              style: TextButton.styleFrom(
+                primary:  Theme.of(context).colorScheme.onPrimary,
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
               ),
-            ),
-            onPressed: () {
-              setState(() {
-                showInputWidget = !showInputWidget;
-                if (showInputWidget == true) {
-                  _animationController.forward();
-                } else {
-                  _animationController.reverse();
-                }
-              });
-            },
-            child: const Text("Transfer money"),
+              onPressed: () {
+                setState(() {
+                  showInputWidget = !showInputWidget;
+                  if (showInputWidget == true) {
+                    _animationController.forward();
+                  } else {
+                    _animationController.reverse();
+                  }
+                });
+              },
+              child: const Text("Transfer money"),
+            
           ),
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),

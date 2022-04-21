@@ -10,6 +10,7 @@ class LayoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
+     
       child: Scaffold(
         appBar: AppBar(
           flexibleSpace: Container(
@@ -37,7 +38,7 @@ class LayoutScreen extends StatelessWidget {
                   child: Icon(
                     Icons.account_balance_sharp,
                     color: Theme.of(context).colorScheme.onPrimary,
-                    size: 30,
+                    size: 35,
                   ),
                 )
               ],

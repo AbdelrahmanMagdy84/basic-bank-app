@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.pushReplacement(
           context,
           PageRouteBuilder(
-            transitionDuration: const Duration(seconds: 2),
+            transitionDuration: const Duration(seconds: 1),
             pageBuilder: (_, __, ___) => LayoutScreen(),
           ),
         );
@@ -39,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
       size = 30;
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pop(context);
-        //Navigator.pushReplacementNamed(context, LayoutScreen.routeName);
       });
     }
   }
