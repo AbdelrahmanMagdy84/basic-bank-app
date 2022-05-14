@@ -1,20 +1,24 @@
-import 'package:basic_banking/models/customer.dart';
-import 'package:basic_banking/providers/new_transaction_data_provider.dart';
-import 'package:basic_banking/screens/customer_details_screen.dart';
+import 'package:basic_banking/Cubit/new_transaction/new_transaction_cubit.dart';
+import 'package:basic_banking/Cubit/transactions/transactions_cubit.dart';
+
+import 'package:basic_banking/models/Acount.dart';
 import 'package:basic_banking/screens/splash_screen.dart';
 import 'package:basic_banking/widgets/gradient_color_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class CustomerCard extends StatelessWidget {
-  final Customer customer;
-  CustomerCard(this.customer);
-  void onPressed(BuildContext context) {
-    final newTranaction =
-        Provider.of<NewTransactionDataProvider>(context, listen: false);
+import '../Cubit/acounts/acounts_cubit.dart';
+import '../screens/acount_details_screen.dart';
+
+class AcountCard extends StatelessWidget {
+  final Acount acount;
+  AcountCard(this.acount);
+
+   void  onPressed(BuildContext context) {
+    final newTranaction = NewTransactionCubit.getObj(context);
     if (newTranaction.inProcess()) {
-      newTranaction.setReceiverID(customer.id);
-      newTranaction.insertNewTransaction(context);
+      newTranaction.setReceiverID(acount.id);
+      newTranaction.insertNewTransaction(context, AcountCubit.getObj(context),
+          TransactionsCubit.getObj(context));
 
       Navigator.pushReplacement(
         context,
@@ -28,7 +32,7 @@ class CustomerCard extends StatelessWidget {
         context,
         PageRouteBuilder(
           transitionDuration: const Duration(seconds: 1),
-          pageBuilder: (_, __, ___) => CustomerDetailsScreen(customer.id),
+          pageBuilder: (_, __, ___) => AcountDetailsScreen(acount.id),
         ),
       );
     }
@@ -43,13 +47,13 @@ class CustomerCard extends StatelessWidget {
       ),
       child: ListTile(
         leading: Hero(
-          tag: customer.id,
+          tag: acount.id,
           child: CircleAvatar(
             radius: 25,
-            backgroundImage: FileImage(customer.image!),
+            backgroundImage: FileImage(acount.image!),
           ),
         ),
-        title: Text(customer.name),
+        title: Text(acount.name),
         subtitle: Row(
           children: [
             const Icon(
@@ -60,7 +64,7 @@ class CustomerCard extends StatelessWidget {
               width: 120,
               child: FittedBox(
                 child: Text(
-                  customer.email,
+                  acount.email,
                   maxLines: 2,
                   style: const TextStyle(fontSize: 11),
                 ),
@@ -75,18 +79,18 @@ class CustomerCard extends StatelessWidget {
             children: [
               const Text(
                 "Balance:",
-                style:
-                     TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
-                "\$${customer.currentBalance.toString()}",
+                "\$${acount.currentBalance.toString()}",
                 style: const TextStyle(fontSize: 15),
               ),
             ],
           ),
         ),
-        onTap: () => onPressed(context),
+        onTap: 
+        ()=>onPressed(context),
       ),
     ));
   }

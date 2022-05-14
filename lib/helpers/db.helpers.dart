@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
@@ -25,7 +25,7 @@ class DBHelper {
       String table, Map<String, Object> insertedData) async {
     try {
       final db = await DBHelper.database();
-      db.insert(table, insertedData);
+     await db.insert(table, insertedData);
     } catch (e) {
       print(e.toString())
       ;

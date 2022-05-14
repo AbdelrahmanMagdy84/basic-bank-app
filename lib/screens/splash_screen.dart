@@ -1,10 +1,6 @@
 import 'package:basic_banking/screens/layout_screen.dart';
 import 'package:basic_banking/widgets/gradient_color_widget.dart';
 import "package:flutter/material.dart";
-import 'package:provider/provider.dart';
-
-import '../providers/customers_provider.dart';
-import '../providers/transactions_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   String text;
@@ -20,27 +16,32 @@ class _SplashScreenState extends State<SplashScreen> {
   late double size;
   @override
   void didChangeDependencies() {
-    super.didChangeDependencies();
     if (widget.icon == Icons.account_balance_sharp) {
       size = 60;
-      Provider.of<Customers>(context, listen: false).fetchAndSetCustomers();
-      Provider.of<TransactionsProvider>(context, listen: false)
-          .fetchAndSetData();
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pushReplacement(
-          context,
-          PageRouteBuilder(
-            transitionDuration: const Duration(seconds: 1),
-            pageBuilder: (_, __, ___) => LayoutScreen(),
-          ),
-        );
-      });
+      if (mounted) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.pushReplacement(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(seconds: 1),
+              pageBuilder: (_, __, ___) => LayoutScreen(),
+            ),
+          );
+        });
+      }
     } else {
       size = 30;
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pop(context);
       });
     }
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-class Customer {
+class Acount {
   int id;
   String name;
   String email;
   double currentBalance = 0.0;
   File? image;
-  Customer(
+  Acount(
       {required this.id,
       required this.name,
       required this.email,

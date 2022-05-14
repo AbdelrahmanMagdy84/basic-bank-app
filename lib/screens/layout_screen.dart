@@ -1,4 +1,4 @@
-import 'package:basic_banking/screens/customers_list_screen.dart';
+import 'package:basic_banking/screens/acounts_list_screen.dart';
 import 'package:basic_banking/screens/transfers_screen.dart';
 import 'package:basic_banking/widgets/gradient_color_widget.dart';
 import 'package:flutter/material.dart';

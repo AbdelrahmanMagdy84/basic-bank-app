@@ -1,12 +1,14 @@
-import 'package:basic_banking/providers/customers_provider.dart';
+import 'package:basic_banking/Cubit/acounts/acounts_cubit.dart';
+import 'package:basic_banking/Cubit/acounts/acounts_states.dart';
 import 'package:basic_banking/widgets/gradient_color_widget.dart';
 import 'package:basic_banking/widgets/transfer_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-class CustomerDetailsScreen extends StatelessWidget {
-  int targetedCustomerId;
-  CustomerDetailsScreen(this.targetedCustomerId);
+class AcountDetailsScreen extends StatelessWidget {
+  int targetedAcountId;
+  AcountDetailsScreen(this.targetedAcountId);
   static const String routeName = "/customer details screen";
 
   FittedBox textBuilder(String title, String value) {
@@ -42,10 +44,11 @@ class CustomerDetailsScreen extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             gradient: GradientWidget.linearGradientBuilder(context)),
-        child: Consumer<Customers>(
-          builder: (context, customers, child) {
-            final currentCustomer =
-                customers.getCustomerByID(targetedCustomerId);
+        child:
+            BlocBuilder<AcountCubit, AcountsStates>(builder: (context, state) {
+          if (state is FetchAcountsState) {
+            final currentAcount =
+                AcountCubit.getObj(context).getAcountByID(targetedAcountId);
             return SingleChildScrollView(
               child: Column(children: [
                 const SizedBox(
@@ -54,11 +57,11 @@ class CustomerDetailsScreen extends StatelessWidget {
                 Container(
                   alignment: Alignment.center,
                   child: Hero(
-                    tag: currentCustomer.id,
+                    tag: currentAcount.id,
                     child: CircleAvatar(
                       radius: 100,
                       backgroundImage: FileImage(
-                        currentCustomer.image!,
+                        currentAcount.image!,
                       ),
                     ),
                   ),
@@ -71,28 +74,29 @@ class CustomerDetailsScreen extends StatelessWidget {
                     children: [
                       Container(
                         margin: const EdgeInsets.all(8),
-                        child: textBuilder("Name: ", currentCustomer.name),
+                        child: textBuilder("Name: ", currentAcount.name),
                       ),
                       const Divider(),
                       Container(
                         margin: const EdgeInsets.all(8),
-                        child: textBuilder("Email: ", currentCustomer.email),
+                        child: textBuilder("Email: ", currentAcount.email),
                       ),
                       const Divider(),
                       Container(
                         margin: const EdgeInsets.all(8),
                         child: textBuilder(
-                            "Balance: ", "\$${currentCustomer.currentBalance}"),
+                            "Balance: ", "\$${currentAcount.currentBalance}"),
                       ),
                     ],
                   ),
                 ),
                 TransferInputWidget(
-                    currentCustomer.id, currentCustomer.currentBalance)
+                    currentAcount.id, currentAcount.currentBalance)
               ]),
             );
-          },
-        ),
+          }
+          return Center(child: Text("Loading"),);
+        }),
       ),
     );
   }

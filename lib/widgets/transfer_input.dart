@@ -1,8 +1,10 @@
-import 'package:basic_banking/providers/new_transaction_data_provider.dart';
-import 'package:basic_banking/screens/customers_list_screen.dart';
-import 'package:basic_banking/widgets/gradient_color_widget.dart';
+
+import 'package:basic_banking/Cubit/new_transaction/new_transaction_cubit.dart';
+import 'package:basic_banking/Cubit/new_transaction/new_transaction_state.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import '../screens/acounts_list_screen.dart';
+
 
 class TransferInputWidget extends StatefulWidget {
   final double balance;
@@ -146,9 +148,7 @@ class _TransferInputWidgetState extends State<TransferInputWidget>
                               FocusScope.of(context).unfocus();
                               if (validate(amountController)) {
                                 final newTransactionData =
-                                    Provider.of<NewTransactionDataProvider>(
-                                        context,
-                                        listen: false);
+                                    NewTransactionCubit.getObj(context);
                                 newTransactionData
                                     .setSenderID(widget.sender_id);
                                 newTransactionData.setAmount(

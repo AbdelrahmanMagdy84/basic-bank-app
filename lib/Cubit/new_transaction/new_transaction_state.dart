@@ -1,0 +1,4 @@
+abstract class NewTransactionState{}
+class InitNewTransactionState extends NewTransactionState{}
+class ProcessingNewTransactionState extends NewTransactionState{}
+class InsertedNewTransactionState extends NewTransactionState{}

@@ -1,11 +1,12 @@
-import 'package:basic_banking/providers/customers_provider.dart';
-import 'package:basic_banking/providers/new_transaction_data_provider.dart';
-import 'package:basic_banking/providers/transactions_provider.dart';
-import 'package:basic_banking/screens/customers_list_screen.dart';
+import 'package:basic_banking/Cubit/new_transaction/new_transaction_cubit.dart';
+import 'package:basic_banking/Cubit/transactions/transactions_cubit.dart';
+
+import 'package:basic_banking/screens/acounts_list_screen.dart';
 import 'package:basic_banking/screens/layout_screen.dart';
 import 'package:basic_banking/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'Cubit/acounts/acounts_cubit.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,10 +14,10 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final theme = ThemeData();
-  Color myHexColor = Color(0xff123456);
+  Color myHexColor = const Color(0xff123456);
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       child: MaterialApp(
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
@@ -29,23 +30,16 @@ class MyApp extends StatelessWidget {
             labelColor: Colors.pink[900],
           ),
         ),
+        home: SplashScreen("Basic Bank", Icons.account_balance_sharp),
         routes: {
-          "/": (ctx) => SplashScreen("Basic Bank", Icons.account_balance_sharp),
           CustomersListScreen.routeName: (ctx) => CustomersListScreen(),
           LayoutScreen.routeName: (ctx) => LayoutScreen(),
-          
         },
       ),
       providers: [
-        ChangeNotifierProvider.value(
-          value: Customers(),
-        ),
-        ChangeNotifierProvider.value(
-          value: TransactionsProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => NewTransactionDataProvider(),
-        )
+        BlocProvider(create: (context) => AcountCubit()),
+        BlocProvider(create: (context) => TransactionsCubit()),
+        BlocProvider(create: (context) => NewTransactionCubit()),
       ],
     );
   }
