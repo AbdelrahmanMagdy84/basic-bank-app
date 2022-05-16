@@ -20,10 +20,10 @@ class TransactionsCubit extends Cubit<TransactionsStates> {
   }
 
   Future<void> fetchAndSetData() async {
-    final data = await DBHelper.getData("transactions");
+    final data = await DBHelper.instance.queryAllRows("transactions");
 
     try {
-      _transactions = data.map((element) {
+      _transactions = data!.map((element) {
         return Transaction(
             trId: element["tr_id"] as int,
             senderName: element["senderName"] as String,
@@ -42,14 +42,12 @@ class TransactionsCubit extends Cubit<TransactionsStates> {
     emit(FetchTransactionsState(getTransactions));
   }
 
-   insertTransaction(int senderId, int receiverId, double amount) {
-    DBHelper.insert("transactions", {
+  insertTransaction(int senderId, int receiverId, double amount) {
+    DBHelper.instance.insert("transactions", {
       "senderId": senderId,
       "receiverId": receiverId,
       "amount": amount,
       "tr_date": dateFormat.format(DateTime.now())
     });
   }
-
-
 }

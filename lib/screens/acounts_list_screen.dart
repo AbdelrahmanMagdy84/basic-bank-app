@@ -32,7 +32,12 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             : null,
         body: FutureBuilder(
           future: AcountCubit.getObj(context).fetchAndSetacounts(),
-          builder: (context, snap) {
+          builder: (ctx, snap) {
+            if (!mounted)
+              return Container(
+                color: Colors.black,
+              );
+
             if (snap.connectionState == ConnectionState.waiting) {
               return GradientWidget(
                 const Scaffold(
